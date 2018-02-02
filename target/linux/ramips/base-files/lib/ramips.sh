@@ -79,6 +79,9 @@ ramips_board_detect() {
 	*"BR-6475nD")
 		name="br-6475nd"
 		;;
+	*"BIGR-M1")
+		name="bigr-m1"
+		;;
 	*"Broadway")
 		name="broadway"
 		;;

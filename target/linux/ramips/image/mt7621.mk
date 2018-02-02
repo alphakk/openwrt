@@ -161,6 +161,17 @@ define Device/pbr-m1
 endef
 TARGET_DEVICES += pbr-m1
 
+define Device/bigr-m1
+  DTS := BIGR-M1
+  IMAGE_SIZE := $(ralink_default_fw_size_32M)
+  DEVICE_TITLE := BIGR-M1
+  DEVICE_PACKAGES := \
+        kmod-ata-core kmod-ata-ahci kmod-mt76x2 kmod-sdhci-mt7620 \
+        kmod-usb3 kmod-usb-ledtrig-usbport
+endef
+TARGET_DEVICES += bigr-m1
+
+
 define Device/r6220
   DTS := R6220
   BLOCKSIZE := 128k

@@ -45,6 +45,7 @@ ramips_setup_interfaces()
 	all5002|\
 	all5003|\
 	broadway|\
+	bigr-m1|\
 	dcs-930|\
 	dcs-930l-b1|\
 	ht-tm02|\

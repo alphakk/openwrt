@@ -29,6 +29,7 @@ platform_check_image() {
 	awm002-evb-4M|\
 	awm002-evb-8M|\
 	bc2|\
+	bigr-m1|\
 	broadway|\
 	c108|\
 	carambola|\
