@@ -85,9 +85,6 @@ ramips_board_detect() {
 	*"C108")
 		name="c108"
 		;;
-	*"C20")
-		name="c20"
-		;;
 	*"C20i")
 		name="c20i"
 		;;
@@ -580,9 +577,6 @@ ramips_board_detect() {
 	*"WHR-G300N")
 		name="whr-g300n"
 		;;
-	*"Widora-NEO")
-		name="widora-neo"
-		;;
 	*"WiTi")
                 name="witi"
 		;;
@@ -690,6 +684,9 @@ ramips_board_detect() {
 		;;
 	*"ZBT-WA05")
 		name="zbt-wa05"
+		;;
+	*"ZBT-WE1226")
+		name="zbt-we1226"
 		;;
 	*"ZBT-WE1326")
 		name="zbt-we1326"
