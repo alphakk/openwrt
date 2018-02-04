@@ -1,0 +1,35 @@
+#Initial system configuration /etc/config/system
+#Created by alphakk@github.com
+#2018/02/04 update
+config system
+        option hostname 'OpenWrt'
+        option ttylogin '0'
+        option log_size '64'
+        option urandom_seed '0'
+        option timezone 'CST-8'
+        option zonename 'Asia/Shanghai'
+
+config timeserver 'ntp'
+        option enabled '1'
+        option enable_server '0'
+        option server 'cn.pool.ntp.org'
+
+config led 'led_internet'
+        option name 'internet'
+        option trigger 'netdev'
+        option dev 'eth0.2'
+        option sysfs 'pbr-m1:blue:internet'
+        option default '0'
+        option mode 'tx rx'
+
+config led 'led_power'
+        option name 'power'
+        option sysfs 'pbr-m1:blue:power'
+        option default '0'
+        option trigger 'none'
+
+config led 'led_sys'
+        option name 'sys'
+        option default '1'
+        option sysfs 'pbr-m1:blue:sys'
+        option trigger 'heartbeat'
