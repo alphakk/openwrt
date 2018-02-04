@@ -35,7 +35,7 @@
 
 		power {
 			label = "pbr-m1:blue:power";
-			gpios = <&gpio0 31 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio0 31 GPIO_ACTIVE_HIGH>;
 		};
 
 		sys {
