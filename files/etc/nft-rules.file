@@ -1,0 +1,45 @@
+#!/usr/sbin/nft -f
+#nftables rules by alphakk
+#2018/02/06 update
+
+#
+#Definitions
+#
+define sys_udp_svc={53,68,123}
+define sys_tcp_svc={80,22,443}
+define app_udp_svc=443
+define intranet=192.168.7.0/24
+
+#
+#NAT rules
+#
+add table ip wrtnat
+add chain ip wrtnat prerouting { type nat hook prerouting priority 0; policy accept;}
+add chain ip wrtnat postrouting { type nat hook postrouting priority 100; policy accept;}
+add rule ip wrtnat postrouting masquerade random,persistent
+#
+#filter table rules - incoming chain
+#
+add table ip wrtfilter
+add chain ip wrtfilter xincoming { type filter hook prerouting priority 10; policy accept;}
+#
+#filter table rules - input chain
+#
+add chain ip wrtfilter xinput { type filter hook input priority 0; policy drop;}
+add rule ip wrtfilter xinput iif br-lan udp dport $sys_udp_svc counter accept
+add rule ip wrtfilter xinput iif br-lan udp dport $app_udp_svc accept
+add rule ip wrtfilter xinput iif br-lan tcp dport $sys_tcp_svc ct state new,established,related counter accept
+add rule ip wrtfilter xinput iif br-lan ip saddr $intranet accept
+#
+#filter table rules - output chain
+#
+add chain ip wrtfilter xoutput { type filter hook output priority 0; policy drop;}
+add rule ip wrtfilter xoutput oif br-lan ip daddr $intranet counter accept
+#
+#forward table rules - forwarding chain
+#
+add table ip wrtforwarding
+add chain ip wrtforwarding xforward { type filter hook forward priority 0; policy accept;}
+add rule ip wrtforwarding xforward ip saddr $intranet counter accept
+
+

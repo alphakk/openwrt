@@ -1,0 +1,7 @@
+# Put your custom commands here that should be executed once
+# the system init finished. By default this file does nothing.
+# 2018/02/06 updated by alphakk
+
+nft -f /etc/nft-rules.file
+
+exit 0
