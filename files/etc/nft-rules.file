@@ -40,7 +40,6 @@ add rule ip wrtfilter xinput iif br-lan ip saddr $intranet accept
 #filter table rules - output chain
 #
 add chain ip wrtfilter xoutput { type filter hook output priority 0; policy drop;}
-add rule ip wrtfilter xoutput oif br-lan udp dport 68 counter accept
 add rule ip wrtfilter xoutput oif br-lan ip daddr $intranet counter accept
 #
 #forward table rules - forwarding chain
