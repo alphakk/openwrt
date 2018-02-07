@@ -5,7 +5,7 @@
 #
 #Definitions
 #
-define sys_udp_svc={53,68,123}
+define sys_udp_svc={53,67,123}
 define sys_tcp_svc={80,22,443}
 define app_udp_svc=443
 define intranet=192.168.7.0/24
