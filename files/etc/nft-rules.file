@@ -26,7 +26,10 @@
 #
 #Definitions
 #
+define wan=eth0.2
+define lan=br-lan
 define sys_udp_svc={53,67,123}
+define sys_udp_svc1={53,123}
 define sys_tcp_svc={80,22,443}
 define app_udp_svc=443
 define intranet=192.168.7.0/24
@@ -55,16 +58,20 @@ add rule ip wrtfilter xincoming ip saddr . ip daddr . ip protocol {$myip . $test
 #filter table rules - input chain
 #
 add chain ip wrtfilter xinput { type filter hook input priority 0; policy drop;}
-add rule ip wrtfilter xinput iif br-lan udp dport $sys_udp_svc ct state new,established,related counter accept
-add rule ip wrtfilter xinput iif br-lan udp dport $app_udp_svc accept
-add rule ip wrtfilter xinput iif br-lan tcp dport $sys_tcp_svc ct state new,established,related counter accept
-add rule ip wrtfilter xinput iif br-lan ip saddr $intranet accept
+add rule ip wrtfilter xinput iif $wan udp sport $sys_udp_svc1 ct state established,related counter accept
+
+add rule ip wrtfilter xinput iif $lan udp dport $sys_udp_svc ct state new,established,related counter accept
+add rule ip wrtfilter xinput iif $lan udp dport $app_udp_svc accept
+add rule ip wrtfilter xinput iif $lan tcp dport $sys_tcp_svc ct state new,established,related counter accept
+add rule ip wrtfilter xinput iif $lan ip saddr $intranet accept
 #
 #filter table rules - output chain
 #
 add chain ip wrtfilter xoutput { type filter hook output priority 0; policy drop;}
-add rule ip wrtfilter xoutput oif br-lan udp sport 67 counter accept
-add rule ip wrtfilter xoutput oif br-lan ip daddr $intranet counter accept
+add rule ip wrtfilter xoutput oif $wan udp dport $sys_udp_svc1 ct state new,established,related counter accept
+
+add rule ip wrtfilter xoutput oif $lan udp sport 67 counter accept
+add rule ip wrtfilter xoutput oif $lan ip daddr $intranet counter accept
 #
 #forward table rules - forwarding chain
 #
