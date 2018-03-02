@@ -41,10 +41,12 @@ config switch
 config switch_vlan
         option device 'switch0'
         option vlan '1'
+	option vid '1'
         option ports '3 6t'
 
 config switch_vlan
         option device 'switch0'
         option vlan '2'
+	option vid '2'
         option ports '4 6t'
 
