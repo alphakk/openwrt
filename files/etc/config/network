@@ -29,6 +29,10 @@ config interface 'wan6'
         option ifname 'eth0.2'
         option proto 'dhcpv6'
 
+config interface 'wan1'
+	option ifname 'eth1'
+	option proto 'dhcp'
+
 #config device 'lan_dev'
 #       option name 'eth0'
 #       option macaddr '88:10:36:30:3c:bf'

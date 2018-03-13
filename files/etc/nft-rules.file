@@ -28,7 +28,7 @@ flush ruleset
 #                                                                                          
 #Definitions                                                                               
 #                                                                                          
-define wan=eth0.2                                                                          
+define wans={eth1,eth0.2}                                                                          
 define lan=br-lan                                                                                                                                                                                         
 #define intranet=192.168.7.0/24                                                                       
 define myip=192.168.7.119                                                             
@@ -82,7 +82,7 @@ add rule ip wrtfilter xincoming ip saddr . ip daddr . ip protocol {$myip . $test
 #                                                                                                            
 #filter table rules - input chain                                                                        
 #                                                                                                      
-add rule ip wrtfilter xinput iif $wan udp sport 53 ct state established,related counter accept   
+add rule ip wrtfilter xinput iif $wans udp sport 53 ct state established,related counter accept   
                                                          
 add rule ip wrtfilter xinput iif $lan udp dport @sys_udp_svc ct state new,established,related counter accept                                      
 add rule ip wrtfilter xinput iif $lan tcp dport @sys_tcp_svc ct state new,established,related counter accept 
@@ -90,7 +90,7 @@ add rule ip wrtfilter xinput iif $lan ip saddr and 255.255.255.0 vmap @intranet-
 #                                                                                                            
 #filter table rules - output chain                                                                            
 #                                                                                                             
-add rule ip wrtfilter xoutput oif $wan udp dport @sys_udp_svc ct state new,established,related counter accept
+add rule ip wrtfilter xoutput oif $wans udp dport @sys_udp_svc ct state new,established,related counter accept
                                                                                                               
 add rule ip wrtfilter xoutput oif $lan udp sport 67 counter accept                                            
 add rule ip wrtfilter xoutput oif $lan ip daddr and 255.255.255.0 vmap @intranet-map                                      
