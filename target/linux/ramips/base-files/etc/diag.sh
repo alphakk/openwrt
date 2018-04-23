@@ -109,6 +109,9 @@ get_status_led() {
 	zbt-wg2626)
 		status_led="$boardname:green:status"
 		;;
+	dlink,dwr-921-c1)
+		status_led="$boardname:green:sigstrength"
+		;;
 	asl26555-8M|\
 	asl26555-16M)
 		status_led="asl26555:green:power"
@@ -130,7 +133,8 @@ get_status_led() {
 		status_led="$boardname:yellow:status"
 		;;
 	cy-swr1100|\
-	w502u)
+	w502u|\
+	youhua,wr1200js)
 		status_led="$boardname:blue:wps"
 		;;
 	d240|\
@@ -150,7 +154,8 @@ get_status_led() {
 	wli-tx4-ag300n|\
 	y1|\
 	y1s|\
-	youku-yk1)
+	youku-yk1|\
+	zorlik,zl5900v2)
 		status_led="$boardname:blue:power"
 		;;
 	dlink,dap-1522-a1|\
