@@ -1,9 +1,9 @@
 #!/bin/sh
 # Copyright (C) 2010-2013 OpenWrt.org
 
-. /lib/functions.sh
 . /lib/functions/leds.sh
 
+<<<<<<< HEAD
 get_status_led() {
 	board=$(board_name)
 	boardname="${board##*,}"
@@ -350,10 +350,11 @@ get_status_led() {
 		;;
 	esac
 }
+=======
+status_led="$(get_dt_led status)"
+>>>>>>> master
 
 set_state() {
-	get_status_led $1
-
 	case "$1" in
 	preinit)
 		status_led_blink_preinit

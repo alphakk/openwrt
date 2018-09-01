@@ -103,6 +103,13 @@ define Device/ubnt_unifiac-mesh
 endef
 TARGET_DEVICES += ubnt_unifiac-mesh
 
+define Device/ubnt_unifiac-mesh-pro
+  $(Device/ubnt_unifiac)
+  DEVICE_TITLE := Ubiquiti UniFi AC-Mesh Pro
+  SUPPORTED_DEVICES += ubnt-unifiac-mesh-pro
+endef
+TARGET_DEVICES += ubnt_unifiac-mesh-pro
+
 define Device/ubnt_unifiac-pro
   $(Device/ubnt_unifiac)
   DEVICE_TITLE := Ubiquiti UniFi AC-Pro
@@ -110,3 +117,33 @@ define Device/ubnt_unifiac-pro
   SUPPORTED_DEVICES += ubnt-unifiac-pro
 endef
 TARGET_DEVICES += ubnt_unifiac-pro
+
+define Device/ubnt_routerstation_common
+  DEVICE_PACKAGES := -kmod-ath9k -wpad-mini -uboot-envtools kmod-usb-ohci kmod-usb2 fconfig
+  ATH_SOC := ar7161
+  IMAGE_SIZE := 16128k
+  IMAGES := sysupgrade.bin factory.bin
+  IMAGE/factory.bin := append-rootfs | pad-rootfs | mkubntimage | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := append-rootfs | pad-rootfs | combined-image | check-size $$$$(IMAGE_SIZE) | append-metadata
+  KERNEL := kernel-bin | append-dtb | lzma | pad-to $$(BLOCKSIZE)
+  KERNEL_INITRAMFS := kernel-bin | append-dtb
+endef
+
+define Device/ubnt_routerstation
+  $(Device/ubnt_routerstation_common)
+  DEVICE_TITLE := Ubiquiti RouterStation
+  UBNT_BOARD := RS
+  UBNT_TYPE := RSx
+  UBNT_CHIP := ar7100
+  DEVICE_PACKAGES += -swconfig
+endef
+TARGET_DEVICES += ubnt_routerstation
+
+define Device/ubnt_routerstation-pro
+  $(Device/ubnt_routerstation_common)
+  DEVICE_TITLE := Ubiquiti RouterStation Pro
+  UBNT_BOARD := RSPRO
+  UBNT_TYPE := RSPRO
+  UBNT_CHIP := ar7100pro
+endef
+TARGET_DEVICES += ubnt_routerstation-pro
