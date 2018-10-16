@@ -97,11 +97,11 @@ endif
 
 ifeq ($(LOCAL_VARIANT),full)
   ifeq ($(SSL_VARIANT),openssl)
-    DRIVER_MAKEOPTS += CONFIG_TLS=openssl
+    DRIVER_MAKEOPTS += CONFIG_TLS=openssl CONFIG_SAE=y CONFIG_OWE=y CONFIG_SUITEB192=y
     TARGET_LDFLAGS += -lcrypto -lssl
   endif
   ifeq ($(SSL_VARIANT),wolfssl)
-    DRIVER_MAKEOPTS += CONFIG_TLS=wolfssl CONFIG_WPS_NFC=1
+    DRIVER_MAKEOPTS += CONFIG_TLS=wolfssl CONFIG_WPS_NFC=1 CONFIG_SAE=y CONFIG_OWE=y CONFIG_SUITEB192=y
     TARGET_LDFLAGS += -lwolfssl
   endif
 endif
@@ -302,6 +302,7 @@ define Package/wpa-supplicant-p2p
 $(call Package/wpa-supplicant/Default,$(1))
   TITLE+= (with Wi-Fi P2P support)
   DEPENDS+=@PACKAGE_kmod-cfg80211
+  VARIANT:=supplicant-p2p-internal
 endef
 
 define Package/wpa-supplicant-mesh/Default
