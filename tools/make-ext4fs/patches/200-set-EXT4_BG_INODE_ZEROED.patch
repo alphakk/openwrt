@@ -1,30 +1,11 @@
-diff --git a/tools/make-ext4fs/patches/200-set-EXT4_BG_INODE_ZEROED.patch b/tools/make-ext4fs/patches/200-set-EXT4_BG_INODE_ZEROED.patch
-new file mode 100644
-index 0000000..4099f6c
---- /dev/null
-+++ b/tools/make-ext4fs/patches/200-set-EXT4_BG_INODE_ZEROED.patch
-@@ -0,0 +1,22 @@
-+We need to set EXT4_BG_INODE_ZEROED on at least Block Group 0.
-+
-+This bit says whether the inode table has been explicitly zeroed
-+or not. ext4 in the kernel now insists that this bit be set on
-+block group 0 at least.
-+
-+Since we are creating the filesystem as a flat sparse file, by
-+definition, the inode tables are zeroed on creation.
-+
-+diff --git a/allocate.c b/allocate.c
-+index cca3dc1..80fcaa5 100644
-+--- a/allocate.c
-++++ b/allocate.c
-+@@ -307,7 +307,7 @@ static void init_bg(struct block_group_info *bg, unsigned int i)
-+       bg->first_free_block = 0;
-+       bg->free_inodes = info.inodes_per_group;
-+       bg->first_free_inode = 1;
-+-      bg->flags = EXT4_BG_INODE_UNINIT;
-++      bg->flags = EXT4_BG_INODE_UNINIT|EXT4_BG_INODE_ZEROED;
-+
-+       if (reserve_blocks(bg, bg->first_free_block, bg->header_blocks) < 0)
-+               error("failed to reserve %u blocks in block group %u\n", bg->header_blocks, i);
-
-
+--- allocate.c	2018-10-23 14:42:53.448624492 +0800
++++ allocate.c	2018-10-23 14:41:02.167563165 +0800
+@@ -307,7 +307,7 @@
+ 	bg->first_free_block = 0;
+ 	bg->free_inodes = info.inodes_per_group;
+ 	bg->first_free_inode = 1;
+-	bg->flags = EXT4_BG_INODE_UNINIT;
++	bg->flags = EXT4_BG_INODE_UNINIT|EXT4_BG_INODE_ZEROED;
+ 
+ 	if (reserve_blocks(bg, bg->first_free_block, bg->header_blocks) < 0)
+ 		error("failed to reserve %u blocks in block group %u\n", bg->header_blocks, i);
