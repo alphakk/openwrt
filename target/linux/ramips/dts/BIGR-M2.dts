@@ -33,6 +33,11 @@
 			gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
 		};
 
+		led_power_blue: power-blue {
+			label = "pbr-m1:blue:power";
+			gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
+		};
+
 		power {
 			label = "pbr-m1:blue:power";
 			gpios = <&gpio0 31 GPIO_ACTIVE_HIGH>;
