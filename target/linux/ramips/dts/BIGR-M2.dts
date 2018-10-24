@@ -28,14 +28,14 @@
 	gpio-leds {
 		compatible = "gpio-leds";
 
-		power-amber {
-			label = "pbr-m1:amber:power";
-			gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;
+		sys {
+			label = "pbr-m1:blue:sys";
+			gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
 		};
 
-		led_power_blue: power-blue {
+		power {
 			label = "pbr-m1:blue:power";
-			gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio0 31 GPIO_ACTIVE_HIGH>;
 		};
 
 		internet-amber {
@@ -45,7 +45,7 @@
 
 		internet-blue {
 			label = "pbr-m1:blue:internet";
-			gpios = <&gpio0 13 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio0 29 GPIO_ACTIVE_LOW>;
 		};
 
 		wlan2g {
