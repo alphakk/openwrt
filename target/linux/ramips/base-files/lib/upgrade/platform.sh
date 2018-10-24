@@ -31,12 +31,9 @@ platform_check_image() {
 	awm002-evb-4M|\
 	awm002-evb-8M|\
 	bc2|\
-<<<<<<< HEAD
 	bigr-m1|\
 	bigr-m2|\
-=======
 	bocco|\
->>>>>>> master
 	broadway|\
 	c108|\
 	carambola|\
