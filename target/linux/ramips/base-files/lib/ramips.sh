@@ -85,6 +85,10 @@ ramips_board_detect() {
 	*"BIGR-M1")
 		name="bigr-m1"
 		;;
+        *"BIGR-M2")
+                name="bigr-m2"
+                ;;
+
 	*"Broadway")
 		name="broadway"
 		;;

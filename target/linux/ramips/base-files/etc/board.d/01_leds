@@ -60,7 +60,11 @@ bigr-m1)
         ucidef_set_led_default "power" "power" "$boardname:blue:power" "1"
         ucidef_set_led_default "sys" "sys" "$boardname:blue:sys" "1"
         ;;
-
+bigr-m2)
+        ucidef_set_led_netdev "internet" "internet" "$boardname:blue:internet" "eth0.2"
+        ucidef_set_led_default "power" "power" "$boardname:blue:power" "1"
+        ucidef_set_led_default "sys" "sys" "$boardname:blue:sys" "1"
+        ;;
 broadway)
 	set_wifi_led "$boardname:red:wps_active"
 	;;

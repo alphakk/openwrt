@@ -33,6 +33,7 @@ platform_check_image() {
 	bc2|\
 <<<<<<< HEAD
 	bigr-m1|\
+	bigr-m2|\
 =======
 	bocco|\
 >>>>>>> master

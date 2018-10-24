@@ -19,6 +19,7 @@ get_status_led() {
 	ar725w|\
 	br-6475nd|\
 	bigr-m1|\
+	bigr-m2|\
 	c50|\
 	dch-m225|\
 	dir-860l-b1|\
