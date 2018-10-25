@@ -39,7 +39,7 @@
 		};
 
 		power {
-			label = "pbr-m1:blue:power";
+			label = "pbr-m1:red:power";
 			gpios = <&gpio0 31 GPIO_ACTIVE_HIGH>;
 		};
 
