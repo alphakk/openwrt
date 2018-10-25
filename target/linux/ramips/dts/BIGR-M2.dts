@@ -100,6 +100,12 @@
 	};
 };
 
+&sdhci {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&sdhci_pins>;
+};
+
 &spi0 {
 	status = "okay";
 
