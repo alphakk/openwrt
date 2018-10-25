@@ -47,6 +47,10 @@ ramips_setup_interfaces()
 	bocco|\
 	broadway|\
 	bigr-m1|\
+	bigr-m2)
+		ucidef_add_switch "switch0" \
+		"3:lan:1" "4:wan:2" "6@eth0"
+		;;
 	dcs-930|\
 	dcs-930l-b1|\
 	ht-tm02|\
@@ -429,6 +433,8 @@ ramips_setup_macs()
 		lan_mac=$(cat /sys/class/net/eth0/address)
 		;;
 	all0239-3g|\
+	bigr-m1|\
+	bigr-m2|\
 	carambola|\
 	freestation5|\
 	w502u|\
