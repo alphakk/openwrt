@@ -28,7 +28,7 @@ flush ruleset
 #                                                                                          
 #Definitions                                                                               
 #                                                                                          
-define wans={eth1,eth0.2}                                                                          
+define wans={eth0.2}                                                                          
 define lan=br-lan                                                                                                                                                                                         
 #define intranet=192.168.7.0/24                                                                       
 define myip=192.168.7.119                                                             
@@ -38,8 +38,8 @@ define testip=172.16.6.254
 #tables and chains                                                                                   
 #                                                                                                    
 add table ip wrtnat                                                                                  
-add chain ip wrtnat prerouting { type nat hook prerouting priority 0; policy accept;}                
-add chain ip wrtnat postrouting { type nat hook postrouting priority 100; policy accept;}            
+add chain ip wrtnat wrtprerouting { type nat hook prerouting priority 0; policy accept;}                
+add chain ip wrtnat wrtpostrouting { type nat hook postrouting priority 100; policy accept;}            
                                                                                          
 add table ip wrtfilter                                                                   
 add chain ip wrtfilter xincoming { type filter hook prerouting priority 10; policy accept;}
@@ -67,10 +67,7 @@ add element ip wrtforwarding intranet-map {192.168.7.0 : accept}
 #                                                                                          
 #NAT rules                                                                                 
 #                                                                                        
-add table ip wrtnat                                                                        
-add chain ip wrtnat prerouting { type nat hook prerouting priority 0; policy accept;}      
-add chain ip wrtnat postrouting { type nat hook postrouting priority 100; policy accept;}  
-add rule ip wrtnat postrouting masquerade random,persistent                                
+add rule ip wrtnat wrtpostrouting masquerade random,persistent                                
 #                                                                                          
 #filter table rules - incoming chain (prerouting)                                                            
 #                                                                                                            
