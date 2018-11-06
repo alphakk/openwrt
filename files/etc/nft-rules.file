@@ -38,18 +38,18 @@ define testip=172.16.6.254
 #tables and chains                                                                                   
 #                                                                                                    
 add table ip wrtnat                                                                                  
-add chain ip wrtnat wrtprerouting { type nat hook prerouting priority 0; policy accept;}                
-add chain ip wrtnat wrtpostrouting { type nat hook postrouting priority 100; policy accept;}            
+add chain ip wrtnat wrtprerouting { type nat hook prerouting priority 0; policy accept; }                
+add chain ip wrtnat wrtpostrouting { type nat hook postrouting priority 100; policy accept; }            
                                                                                          
 add table ip wrtfilter                                                                   
-add chain ip wrtfilter xincoming { type filter hook prerouting priority 10; policy accept;}
+add chain ip wrtfilter xincoming { type filter hook prerouting priority 10; policy accept; }
 add chain ip wrtfilter xincom-jumpin                                                       
                                                                                            
-add chain ip wrtfilter xinput { type filter hook input priority 0; policy drop;}           
-add chain ip wrtfilter xoutput { type filter hook output priority 0; policy drop;}         
+add chain ip wrtfilter xinput { type filter hook input priority 0; policy drop; }           
+add chain ip wrtfilter xoutput { type filter hook output priority 0; policy drop; }         
                                                                                            
 add table ip wrtforwarding                                                                 
-add chain ip wrtforwarding xforward { type filter hook forward priority 0; policy accept;}
+add chain ip wrtforwarding xforward { type filter hook forward priority 0; policy accept; }
 #                                                                                         
 #sets                                                                                     
 #                                                                                  
