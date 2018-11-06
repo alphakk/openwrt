@@ -79,16 +79,16 @@ add rule ip wrtfilter xincoming ip saddr . ip daddr . ip protocol {$myip . $test
 #                                                                                                            
 #filter table rules - input chain                                                                        
 #                                                                                                      
-add rule ip wrtfilter xinput iif $wans udp sport 53 ct state established,related counter accept   
-                                                         
-add rule ip wrtfilter xinput iif $lan udp dport @sys_udp_svc ct state new,established,related counter accept                                      
-add rule ip wrtfilter xinput iif $lan tcp dport @sys_tcp_svc ct state new,established,related counter accept 
+add rule ip wrtfilter xinput iif $wans udp sport 53 ct state established,related counter accept 
+add rule ip wrtfilter xinput iif $wans tcp sport @sys_tcp_svc ct state established,related counter accept
+  
+add rule ip wrtfilter xinput iif $lan udp dport @sys_udp_svc ct state new,established,related counter accept                         add rule ip wrtfilter xinput iif $lan tcp dport @sys_tcp_svc ct state new,established,related counter accept 
 add rule ip wrtfilter xinput iif $lan ip saddr and 255.255.255.0 vmap @intranet-map                                              
 #                                                                                                            
 #filter table rules - output chain                                                                            
 #                                                                                                             
 add rule ip wrtfilter xoutput oif $wans udp dport @sys_udp_svc ct state new,established,related counter accept
-                                                                                                              
+add rule ip wrtfilter xoutput oif $wans tcp dport @sys_tcp_svc ct state new,established,related counter accept                                                                                                              
 add rule ip wrtfilter xoutput oif $lan udp sport 67 counter accept                                            
 add rule ip wrtfilter xoutput oif $lan ip daddr and 255.255.255.0 vmap @intranet-map                                      
 #                                                                                                            
