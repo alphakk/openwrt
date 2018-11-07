@@ -1,6 +1,6 @@
 #!/usr/sbin/nft -f
 #nftables rules by alphakk
-#2018/03/05 update
+#2018/11/07 update
 #
 #netfilter hooks
 #                                             Local
@@ -49,7 +49,7 @@ add chain ip wrtfilter xinput { type filter hook input priority 0; policy drop; 
 add chain ip wrtfilter xoutput { type filter hook output priority 0; policy drop; }         
                                                                                            
 add table ip wrtforwarding                                                                 
-add chain ip wrtforwarding xforward { type filter hook forward priority 0; policy accept; }
+add chain ip wrtforwarding xforward { type filter hook forward priority 0; policy drop; }
 #                                                                                         
 #sets                                                                                     
 #                                                                                  
@@ -62,8 +62,8 @@ add element ip wrtfilter sys_tcp_svc {80,22,443}
 add map ip wrtfilter intranet-map {type ipv4_addr : verdict;}
 add element ip wrtfilter intranet-map {192.168.7.0 : accept}
 
-add map ip wrtforwarding intranet-map {type ipv4_addr : verdict;}
-add element ip wrtforwarding intranet-map {192.168.7.0 : accept}
+add map ip wrtforwarding intra-net {type ipv4_addr : verdict;}
+add element ip wrtforwarding intra-net {192.168.7.0 : accept}
 #                                                                                          
 #NAT rules                                                                                 
 #                                                                                        
@@ -79,7 +79,7 @@ add rule ip wrtfilter xincoming ip saddr . ip daddr . ip protocol {$myip . $test
 #                                                                                                            
 #filter table rules - input chain                                                                        
 #                                                                                                      
-add rule ip wrtfilter xinput iif $wans udp sport 53 ct state established,related counter accept 
+add rule ip wrtfilter xinput iif $wans udp sport @sys_udp_svc ct state established,related counter accept
 add rule ip wrtfilter xinput iif $wans tcp sport @sys_tcp_svc ct state established,related counter accept
   
 add rule ip wrtfilter xinput iif $lan udp dport @sys_udp_svc ct state new,established,related counter accept                         add rule ip wrtfilter xinput iif $lan tcp dport @sys_tcp_svc ct state new,established,related counter accept 
@@ -94,4 +94,5 @@ add rule ip wrtfilter xoutput oif $lan ip daddr and 255.255.255.0 vmap @intranet
 #                                                                                                            
 #forward table rules - forwarding chain                                                                      
 #                                                                                                            
-add rule ip wrtforwarding xforward ip saddr and 255.255.255.0 vmap @intranet-map 
+add rule ip wrtforwarding xforward iif $lan ip saddr and 255.255.255.0 vmap @intra-net
+add rule ip wrtforwarding xforward oif $lan ip daddr and 255.255.255.0 vmap @intra-net 
