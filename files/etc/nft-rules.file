@@ -1,6 +1,6 @@
 #!/usr/sbin/nft -f
 #nftables rules by alphakk
-#2018/11/07 update
+#2018/11/09 update
 #
 #netfilter hooks
 #                                             Local
@@ -19,7 +19,7 @@
 #chain ip wrtnat prerouting - type nat hook prerouting priority 0
 #chain ip wrtnat postrouting - type nat hook postrouting priority 100
 #chain ip wrtfilter xincoming - type filter hook prerouting priority 10
-#chain ip wrtfilter xincom-jumpin                                                         
+#chain ip wrtfilter icmp-jumpin                                                         
 #chain ip wrtfilter xinput - type filter hook input priority 0                            
 #chain ip wrtfilter xoutput - type filter hook output priority 0                          
 #chain ip wrtforwarding xforward - type filter hook forward priority 0      
@@ -30,26 +30,26 @@ flush ruleset
 #                                                                                          
 define wans={eth0.2}                                                                          
 define lan=br-lan                                                                                                                                                                                         
+define localhst=127.0.0.1
 #define intranet=192.168.7.0/24                                                                       
-define myip=192.168.7.119                                                             
+define myip=172.16.6.180                                                             
 define testip=172.16.6.254                                                           
 #                                                                                    
 #                                                                                                    
 #tables and chains                                                                                   
 #                                                                                                    
 add table ip wrtnat                                                                                  
-add chain ip wrtnat wrtprerouting { type nat hook prerouting priority 0; policy accept; }                
-add chain ip wrtnat wrtpostrouting { type nat hook postrouting priority 100; policy accept; }            
+add chain ip wrtnat wrtprerouting { type nat hook prerouting priority 0; }                
+add chain ip wrtnat wrtpostrouting { type nat hook postrouting priority 100; }            
                                                                                          
 add table ip wrtfilter                                                                   
 add chain ip wrtfilter xincoming { type filter hook prerouting priority 10; policy accept; }
-add chain ip wrtfilter xincom-jumpin                                                       
-                                                                                           
+add chain ip wrtfilter icmp-jumpin                                                       
 add chain ip wrtfilter xinput { type filter hook input priority 0; policy drop; }           
 add chain ip wrtfilter xoutput { type filter hook output priority 0; policy drop; }         
                                                                                            
 add table ip wrtforwarding                                                                 
-add chain ip wrtforwarding xforward { type filter hook forward priority 0; policy drop; }
+add chain ip wrtforwarding xforward { type filter hook forward priority 0; policy accept; }
 #                                                                                         
 #sets                                                                                     
 #                                                                                  
@@ -57,42 +57,48 @@ add set ip wrtfilter sys_udp_svc {type inet_service;}
 add element ip wrtfilter sys_udp_svc {53,67,123}
 
 add set ip wrtfilter sys_tcp_svc {type inet_service;}
-add element ip wrtfilter sys_tcp_svc {80,22,443}
+add element ip wrtfilter sys_tcp_svc {80,7250,22,443}
 
 add map ip wrtfilter intranet-map {type ipv4_addr : verdict;}
-add element ip wrtfilter intranet-map {192.168.7.0 : accept}
+add element ip wrtfilter intranet-map {192.168.7.0 : accept }
 
 add map ip wrtforwarding intra-net {type ipv4_addr : verdict;}
-add element ip wrtforwarding intra-net {192.168.7.0 : accept}
+add element ip wrtforwarding intra-net {192.168.7.0 : accept }
 #                                                                                          
 #NAT rules                                                                                 
 #                                                                                        
-add rule ip wrtnat wrtpostrouting masquerade random,persistent                                
+add rule ip wrtnat wrtpostrouting masquerade random,persistent                               
 #                                                                                          
 #filter table rules - incoming chain (prerouting)                                                            
 #                                                                                                            
-add rule ip wrtfilter xincom-jumpin icmp type echo-request limit rate 4/second accept                        
-add rule ip wrtfilter xincom-jumpin drop                                                                     
-add rule ip wrtfilter xincoming ip saddr . ip daddr . ip protocol {$myip . $testip . icmp} jump xincom-jumpin
+add rule ip wrtfilter icmp-jumpin icmp type { echo-request,echo-reply } limit rate 4/second counter accept                        
+add rule ip wrtfilter icmp-jumpin counter drop                                                                     
+add rule ip wrtfilter xincoming ip saddr . ip protocol {$myip . icmp} jump icmp-jumpin
 ###                                                                                                          
                                                                                                              
 #                                                                                                            
 #filter table rules - input chain                                                                        
-#                                                                                                      
-add rule ip wrtfilter xinput iif $wans udp sport @sys_udp_svc ct state established,related counter accept
-add rule ip wrtfilter xinput iif $wans tcp sport @sys_tcp_svc ct state established,related counter accept
-  
-add rule ip wrtfilter xinput iif $lan udp dport @sys_udp_svc ct state new,established,related counter accept                         add rule ip wrtfilter xinput iif $lan tcp dport @sys_tcp_svc ct state new,established,related counter accept 
-add rule ip wrtfilter xinput iif $lan ip saddr and 255.255.255.0 vmap @intranet-map                                              
+#
+add rule ip wrtfilter xinput udp sport @sys_udp_svc ct state established,related counter accept 
+add rule ip wrtfilter xinput tcp sport @sys_tcp_svc ct state established,related counter accept
+add rule ip wrtfilter xinput ip protocol icmp jump icmp-jumpin
+
+add rule ip wrtfilter xinput udp dport @sys_udp_svc ct state new,established,related counter accept                                      
+add rule ip wrtfilter xinput tcp dport @sys_tcp_svc ct state new,established,related counter accept 
+add rule ip wrtfilter xinput ip saddr and 255.255.255.0 vmap @intranet-map
+                                              
 #                                                                                                            
 #filter table rules - output chain                                                                            
 #                                                                                                             
-add rule ip wrtfilter xoutput oif $wans udp dport @sys_udp_svc ct state new,established,related counter accept
-add rule ip wrtfilter xoutput oif $wans tcp dport @sys_tcp_svc ct state new,established,related counter accept                                                                                                              
-add rule ip wrtfilter xoutput oif $lan udp sport 67 counter accept                                            
-add rule ip wrtfilter xoutput oif $lan ip daddr and 255.255.255.0 vmap @intranet-map                                      
+add rule ip wrtfilter xoutput udp dport @sys_udp_svc ct state new,established,related counter accept
+add rule ip wrtfilter xoutput tcp dport @sys_tcp_svc ct state new,established,related counter accept 
+add rule ip wrtfilter xoutput ip protocol icmp jump icmp-jumpin
+                                                                                                             
+add rule ip wrtfilter xoutput udp sport 67 counter accept                                            
+add rule ip wrtfilter xoutput ip daddr and 255.255.255.0 vmap @intranet-map
 #                                                                                                            
 #forward table rules - forwarding chain                                                                      
-#                                                                                                            
-add rule ip wrtforwarding xforward iif $lan ip saddr and 255.255.255.0 vmap @intra-net
-add rule ip wrtforwarding xforward oif $lan ip daddr and 255.255.255.0 vmap @intra-net 
+
+# 
+add rule ip wrtforwarding xforward ip saddr and 255.255.255.0 vmap @intra-net
+add rule ip wrtforwarding xforward ip daddr and 255.255.255.0 vmap @intra-net 
