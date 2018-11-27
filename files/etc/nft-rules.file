@@ -54,7 +54,7 @@ add chain ip wrtforwarding xforward { type filter hook forward priority 0; polic
 #sets                                                                                     
 #                                                                                  
 add set ip wrtfilter sys_udp_svc {type inet_service;} 
-add element ip wrtfilter sys_udp_svc {53,67,123}
+add element ip wrtfilter sys_udp_svc {53,67,123,5153,5154}
 
 add set ip wrtfilter sys_tcp_svc {type inet_service;}
 add element ip wrtfilter sys_tcp_svc {80,7250,22,443}
@@ -67,7 +67,7 @@ add element ip wrtforwarding intra-net {192.168.7.0 : accept }
 #                                                                                          
 #NAT rules                                                                                 
 #                                                                                        
-add rule ip wrtnat wrtpostrouting masquerade random,persistent                               
+add rule ip wrtnat wrtpostrouting oif $wans masquerade random,persistent                               
 #                                                                                          
 #filter table rules - incoming chain (prerouting)                                                            
 #                                                                                                            

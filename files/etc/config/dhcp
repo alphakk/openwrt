@@ -1,6 +1,6 @@
 #Initial dhcp server configuration /etc/config/dhcp
 #Created by alphakk@github.com
-#2018/02/04 update
+#2018/11/27 update
 config dnsmasq
         option domainneeded '1'
         option boguspriv '1'
@@ -18,6 +18,13 @@ config dnsmasq
         option resolvfile '/tmp/resolv.conf.auto'
         option nonwildcard '1'
         option localservice '1'
+	option noresolv '1'
+	list server '/scse.com.cn/172.16.2.1'
+	list server '/scse.edu.cn/172.16.2.1'
+	list server '/sise.com.cn/172.16.2.1'
+	list server '/sise.edu.cn/172.16.2.1'
+	list server '192.168.7.1#5153'
+	list server '192.168.7.1:5154'
 
 config dhcp 'lan'
         option interface 'lan'
