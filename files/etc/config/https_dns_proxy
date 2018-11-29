@@ -1,0 +1,21 @@
+#configuration for luci-app-https_dns_proxy
+#2018/11/29 updated by alphakk@github.com
+
+config https_dns_proxy
+	option bootstrap_dns '8.8.8.8,8.8.4.4'
+	option url_prefix 'https://dns.google.com/resolve?'
+	option user 'nobody'
+	option group 'nogroup'
+	option subnet_addr '219.137.116.0/26'
+	option listen_addr '192.168.7.1'
+	option listen_port '5153'
+
+config https_dns_proxy
+	option bootstrap_dns '1.0.0.1'
+	option url_prefix 'https://cloudflare-dns.com/dns-query?ct=application/dns-json&'
+	option user 'nobody'
+	option group 'nogroup'
+	option listen_addr '192.168.7.1'
+	option listen_port '5154'
+	option subnet_addr '219.137.116.0/26'
+
