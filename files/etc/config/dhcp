@@ -24,7 +24,7 @@ config dnsmasq
 	list server '/sise.com.cn/172.16.2.1'
 	list server '/sise.edu.cn/172.16.2.1'
 	list server '192.168.7.1#5153'
-	list server '192.168.7.1:5154'
+	list server '192.168.7.1#5154'
 
 config dhcp 'lan'
         option interface 'lan'
