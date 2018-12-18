@@ -33,8 +33,8 @@ etactica,eg200)
 	ucidef_set_led_oneshot "modbus" "Modbus" "$boardname:red:modbus" "100" "33"
 	ucidef_set_led_default "etactica" "etactica" "$boardname:red:etactica" "ignore"
 	;;
-glinet,x750)
-	ucidef_set_led_netdev "wan" "WAN" "gl-x750:green:wan" "eth0"
+glinet,gl-x750)
+	ucidef_set_led_netdev "wan" "WAN" "$boardname:green:wan" "eth0"
 	;;
 netgear,wnr612-v2|\
 on,n150r)
@@ -51,6 +51,13 @@ pcs,cr3000)
 	ucidef_set_led_switch "lan2" "LAN2" "pcs:blue:lan2" "switch0" "0x08"
 	ucidef_set_led_switch "lan3" "LAN3" "pcs:blue:lan3" "switch0" "0x10"
 	ucidef_set_led_switch "lan4" "LAN4" "pcs:blue:lan4" "switch0" "0x02"
+	;;
+tplink,archer-a7-v5)
+	ucidef_set_led_switch "wan" "WAN" "tp-link:green:wan" "switch0" "0x02"
+	ucidef_set_led_switch "lan1" "LAN1" "tp-link:green:lan1" "switch0" "0x04"
+	ucidef_set_led_switch "lan2" "LAN2" "tp-link:green:lan2" "switch0" "0x08"
+	ucidef_set_led_switch "lan3" "LAN3" "tp-link:green:lan3" "switch0" "0x10"
+	ucidef_set_led_switch "lan4" "LAN4" "tp-link:green:lan4" "switch0" "0x20"
 	;;
 tplink,archer-c58-v1|\
 tplink,archer-c59-v1)
