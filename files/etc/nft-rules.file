@@ -57,7 +57,7 @@ add set ip wrtfilter sys_udp_svc {type inet_service;}
 add element ip wrtfilter sys_udp_svc {53,67,123,5153,5154}
 
 add set ip wrtfilter sys_tcp_svc {type inet_service;}
-add element ip wrtfilter sys_tcp_svc {80,7250,22,443}
+add element ip wrtfilter sys_tcp_svc {80,4736,22,443}
 
 add map ip wrtfilter intranet-map {type ipv4_addr : verdict;}
 add element ip wrtfilter intranet-map {192.168.7.0 : accept }
