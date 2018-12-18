@@ -24,6 +24,17 @@
 	chosen {
 		bootargs = "console=ttyS0,115200";
 	};
+	palmbus: palmbus@1E000000 {
+		i2c: i2c@900 {
+			status = "okay";
+
+			pcf8563: rtc@51 {
+				status = "okay";
+				compatible = "nxp,pcf8563";
+				reg = <0x51>;
+			};
+		};
+	};
 
 	gpio-leds {
 		compatible = "gpio-leds";
