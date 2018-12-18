@@ -107,6 +107,7 @@ ramips_setup_interfaces()
 	miwifi-nano|\
 	mt7621|\
 	mt7628|\
+	mtc,wr1201|\
 	mzk-750dhp|\
 	mzk-w300nh2|\
 	netgear,r6120|\
@@ -117,11 +118,14 @@ ramips_setup_interfaces()
 	psg1208|\
 	psg1218a|\
 	r6220|\
+	netgear,r6350|\
 	rt-n12p|\
 	sap-g3200u3|\
 	sk-wb8|\
-	u7621-06-256M-16M|\
+	unielec,u7621-06-256m-16m|\
+	unielec,u7621-06-512m-64m|\
 	vr500|\
+	wavlink,wl-wn570ha1|\
 	wf-2881|\
 	whr-g300n|\
 	mqmaker,witi-256m|\
@@ -163,6 +167,10 @@ ramips_setup_interfaces()
 	wn3000rpv3|\
 	wrh-300cr)
 		ucidef_set_interface_lan "eth0"
+		;;
+	dlink,dwr-118-a1)
+		ucidef_add_switch "switch0" \
+			"1:lan:2" "2:lan:3" "3:lan:1" "4:lan:0" "5:wan" "6@eth0"
 		;;
 	dlink,dwr-118-a2)
 		ucidef_add_switch "switch0" \
@@ -209,7 +217,6 @@ ramips_setup_interfaces()
 	gl-mt300a|\
 	gl-mt300n|\
 	gl-mt750|\
-	hg255d|\
 	hiwifi,hc5861b|\
 	jhr-n805r|\
 	jhr-n825r|\
@@ -218,6 +225,7 @@ ramips_setup_interfaces()
 	mzk-wdpr|\
 	rb750gr3|\
 	rt-n14u|\
+	skylab,skw92a|\
 	tplink,c20-v4|\
 	tplink,c50-v3|\
 	tplink,tl-mr3420-v5|\
@@ -225,7 +233,6 @@ ramips_setup_interfaces()
 	tl-wr840n-v4|\
 	tl-wr840n-v5|\
 	tl-wr841n-v13|\
-	skylab,skw92a|\
 	u7628-01-128M-16M|\
 	ubnt-erx|\
 	ubnt-erx-sfp|\
@@ -248,6 +255,7 @@ ramips_setup_interfaces()
 	elecom,wrc-1167ghbk2-s|\
 	elecom,wrc-2533gst|\
 	elecom,wrc-1900gst|\
+	hg255d|\
 	iodata,wn-ax1167gr|\
 	iodata,wn-gx300gr)
 		ucidef_add_switch "switch0" \
@@ -302,7 +310,8 @@ ramips_setup_interfaces()
 		ucidef_add_switch "switch1" \
 			"1:lan" "2:lan" "3:lan" "4:lan" "0:wan" "6@eth0"
 		;;
-	hc5*61|\
+	hc5661|\
+	hc5861|\
 	y1s)
 		ucidef_add_switch "switch0" \
 			"1:lan" "2:lan" "3:lan" "4:lan" "5:lan" "0:wan" "6@eth0"
@@ -324,6 +333,10 @@ ramips_setup_interfaces()
 		ucidef_add_switch "switch0" \
 			"0:lan" "1:lan" "2:lan" "3:lan" "6t@eth0"
 		ucidef_set_interface_wan "usb0"
+		;;
+	hc5761)
+		ucidef_add_switch "switch0" \
+			"1:lan" "4:lan" "0:wan" "6@eth0"
 		;;
 	mzk-dp150n|\
 	vocore-8M|\
@@ -435,9 +448,12 @@ ramips_setup_macs()
 	wmdr-143n)
 		lan_mac=$(cat /sys/class/net/eth0/address)
 		;;
+<<<<<<< HEAD
 	all0239-3g|\
 	bigr-m1|\
 	bigr-m2|\
+=======
+>>>>>>> master
 	carambola|\
 	freestation5|\
 	w502u|\
@@ -479,6 +495,7 @@ ramips_setup_macs()
 		wan_mac=$(mtd_get_mac_ascii factory wanmac)
 		;;
 	dlink,dwr-116-a1|\
+	dlink,dwr-118-a1|\
 	dlink,dwr-118-a2|\
 	dlink,dwr-921-c1|\
 	lava,lr-25g001)
@@ -556,7 +573,8 @@ ramips_setup_macs()
 		lan_mac=$(mtd_get_mac_binary factory 40)
 		wan_mac=$(mtd_get_mac_binary factory 46)
 		;;
-	r6220)
+	r6220|\
+	netgear,r6350)
 		wan_mac=$(mtd_get_mac_binary factory 4)
 		lan_mac=$(macaddr_add "$wan_mac" 1)
 		;;

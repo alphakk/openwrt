@@ -3,6 +3,7 @@
 #
 
 PART_NAME=firmware
+REQUIRE_IMAGE_METADATA=1
 
 platform_check_image() {
 	local board=$(board_name)
@@ -31,12 +32,9 @@ platform_check_image() {
 	awm002-evb-4M|\
 	awm002-evb-8M|\
 	bc2|\
-<<<<<<< HEAD
 	bigr-m1|\
 	bigr-m2|\
-=======
 	bdcom,wap2100-sk|\
->>>>>>> master
 	bocco|\
 	broadway|\
 	c108|\
@@ -337,6 +335,9 @@ platform_check_image() {
 
 	echo "Sysupgrade is not yet supported on $board."
 	return 1
+=======
+	return 0
+>>>>>>> master
 }
 
 platform_pre_upgrade() {
@@ -368,6 +369,7 @@ platform_do_upgrade() {
 	hc5962|\
 	mir3g|\
 	r6220|\
+	netgear,r6350|\
 	ubnt-erx|\
 	ubnt-erx-sfp)
 		nand_do_upgrade "$ARGV"
