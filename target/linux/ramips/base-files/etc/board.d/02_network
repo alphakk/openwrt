@@ -454,12 +454,9 @@ ramips_setup_macs()
 	wmdr-143n)
 		lan_mac=$(cat /sys/class/net/eth0/address)
 		;;
-<<<<<<< HEAD
 	all0239-3g|\
 	bigr-m1|\
 	bigr-m2|\
-=======
->>>>>>> master
 	carambola|\
 	freestation5|\
 	w502u|\

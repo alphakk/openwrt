@@ -334,7 +334,7 @@ platform_check_image() {
 	esac
 
 	echo "Sysupgrade is not yet supported on $board."
-	return 0
+	return 1
 }
 
 platform_pre_upgrade() {
