@@ -25,6 +25,12 @@ config dnsmasq
 	list server '/sise.edu.cn/172.16.2.1'
 	list server '192.168.7.1#5153'
 	list server '192.168.7.1#5154'
+	option filterwin2k '1'
+	option cachesize '3000'
+	list notinterface 'tun0'
+	list notinterface 'wan'
+	list notinterface 'wan1'
+	list notinterface 'wan6'
 
 config dhcp 'lan'
         option interface 'lan'
